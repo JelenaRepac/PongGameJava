@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 		paddle1.draw(g);
 		paddle2.draw(g);
 		ball.draw(g);
+		score.draw(g);
 	}
 	
 	public void move() {
@@ -84,7 +85,17 @@ public class GamePanel extends JPanel implements Runnable {
 			 
 		 }
 		
-		
+		 if(ball.intersects(paddle2)) {
+			 ball.xVelocity = Math.abs(ball.xVelocity);
+			 ball.xVelocity++;
+			 if(ball.yVelocity>0)
+				 ball.yVelocity++;
+			 else
+				 ball.yVelocity--;
+			 ball.setXDirection(-ball.xVelocity);
+			 ball.setYDirection(ball.yVelocity);
+			 
+		 }
 		
 		if(paddle1.y<=0)
 			paddle1.y=0;
@@ -100,7 +111,17 @@ public class GamePanel extends JPanel implements Runnable {
 			paddle2.y= GAME_HEIGHT - PADDLE_HEIGHT;
 		
 		
-		
+		if(ball.x<=0) {
+			score.player2++;
+			newPaddles();
+			newBall();
+		}
+		if(ball.x>=GAME_WIDTH-BALL_DIAMETER) {
+			score.player1++;
+			newPaddles();
+			newBall();
+
+		}
 	}
 	public void run() {
 		//gameLoop
